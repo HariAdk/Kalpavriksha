@@ -4,98 +4,98 @@
 #include <string.h>
 #include <limits.h> 
 
-#define MAX_SIZE 100
 
-//Defining stack for operands
-struct StackInt {
 
-    int data[MAX_SIZE];
+
+struct StInt {
+
+    int val[100];
     int top;
 
 };
 
-//Defining stack for operators
-struct StackChar {
 
-    char data[MAX_SIZE];
+struct StChar {
+
+    char val[100];
     int top;
 
 };
 
-// Initializing
-void initIntStack(struct StackInt *stack) {
+
+void initalizeIntSt(struct StInt *stack) {
 
     stack->top = -1;
 
 }
 
-//Initializing
-void initCharStack(struct StackChar *stack) {
+
+void initalizeCharSt(struct StChar *stack) {
 
     stack->top = -1;
 
 }
 
-// Check if the integer stack is empty
-int isEmptyIntStack(struct StackInt *stack) {
+
+int isEmptyIntSt(struct StInt *stack) {
 
     return stack->top == -1;
 
 }
 
-// Check if the character stack is empty
-int isEmptyCharStack(struct StackChar *stack) {
+
+int isEmptyCharSt(struct StChar *stack) {
 
     return stack->top == -1;
 
 }
 
-// Push integer in the integer stack
-void pushInt(struct StackInt *stack, int value) {
 
-    if (stack->top == MAX_SIZE - 1) {
+void pushVal(struct StInt *stack, int value) {
+
+    if (stack->top == 99) {
 
         printf("Error: Stack overflow\n");
         exit(1);
 
     }
-    stack->data[++stack->top] = value;
+    stack->val[++stack->top] = value;
 }
 
-// Push a character in the character stack
-void pushChar(struct StackChar *stack, char value) { 
 
-    if (stack->top == MAX_SIZE - 1) {
+void pushChar(struct StChar *stack, char value) { 
+
+    if (stack->top == 99) {
         printf("Error: Stack overflow\n");
         exit(1);
     }
 
-    stack->data[++stack->top] = value;
+    stack->val[++stack->top] = value;
 }
 
-// Pop integer from the integer stack
-int popInt(struct StackInt *stack) {
 
-    if (isEmptyIntStack(stack)) {
+int popVal(struct StInt *stack) {
+
+    if (isEmptyIntSt(stack)) {
         printf("Error: Stack is underflow\n");
         exit(1);
     }
 
-    return stack->data[stack->top--];
+    return stack->val[stack->top--];
 }
 
-// Pop character from the character stack
-char popChar(struct StackChar *stack) {
 
-    if (isEmptyCharStack(stack)) {
+char popChar(struct StChar *stack) {
+
+    if (isEmptyCharSt(stack)) {
         printf("Error: Stack is underflow\n");
         exit(1);
     }
 
-    return stack->data[stack->top--];
+    return stack->val[stack->top--];
 }
 
-// Precedence of an operator
+// check precedence
 int precedence(char op) {
 
     if (op == '+' || op == '-') return 1;
@@ -104,8 +104,8 @@ int precedence(char op) {
 
 }
 
-// Applying an operation on operand
-int applyOperation(int a, int b, char op) {
+
+int Calculate(int a, int b, char op) {
 
     switch (op) {
 
@@ -125,88 +125,88 @@ int applyOperation(int a, int b, char op) {
             }
             return a / b;
         default:
-            printf("Invalid operator.\n");
+            printf("Operator is invalid.\n");
             exit(1);
     }
 }
 
-// Evaluate the expression
-int solveExpression(char *expression) {
-    struct StackInt values;
-    struct StackChar operators;
 
-    initIntStack(&values);
-    initCharStack(&operators);
+int solveMathExp(char *str) {
+    struct StInt value;
+    struct StChar operator;
 
-    for (int i = 0; i < strlen(expression); i++) {
+    initalizeIntSt(&value);
+    initalizeCharSt(&operator);
 
-        if (isspace(expression[i])) {
-            continue;    //if any whitespace
+    for (int i = 0; i < strlen(str); i++) {
+
+        if (isspace(str[i])) {
+            continue;    
         }
 
-        if (isdigit(expression[i])) {
+        if (isdigit(str[i])) {
 
-            int value = 0;
-            while (i < strlen(expression) && (isdigit(expression[i]) || isspace(expression[i]))) {
+            int values = 0;
+            while (i < strlen(str) && (isdigit(str[i]) || isspace(str[i]))) {
 
-               if (isspace(expression[i])) {
+               if (isspace(str[i])) {
                 
                      i++;
                      continue;    
         }
-                value = value * 10 + (expression[i] - '0');
+                values = values * 10 + (str[i] - '0');
                 i++;
             }
 
             i--; 
-            pushInt(&values, value);
+            pushVal(&value, values);
 
         } 
-        else if (expression[i] == '+' || expression[i] == '-' ||
-                   expression[i] == '*' || expression[i] == '/') {
+        else if (str[i] == '+' || str[i] == '-' ||
+                   str[i] == '*' || str[i] == '/') {
 
-            while (!isEmptyCharStack(&operators) && 
-                     precedence(operators.data[operators.top]) >= precedence(expression[i])) {
+            while (!isEmptyCharSt(&operator) && 
+                     precedence(operator.val[operator.top]) >= precedence(str[i])) {
                    
-                int b = popInt(&values);
-                int a = popInt(&values);
-                char op = popChar(&operators);
-                pushInt(&values, applyOperation(a, b, op));
+                int b = popVal(&value);
+                int a = popVal(&value);
+                char op = popChar(&operator);
+                pushVal(&value, Calculate(a, b, op));
 
             }
 
-            pushChar(&operators, expression[i]);
+            pushChar(&operator, str[i]);
 
         } else {
 
-            printf("Invalid expression.\n");
+            printf("Expression is invalid.\n");
             return INT_MIN; 
 
         }
     }
 
-    while (!isEmptyCharStack(&operators)) {
+    while (!isEmptyCharSt(&operator)) {
         
-        int b = popInt(&values);
-        int a = popInt(&values);
-        char op = popChar(&operators);
-        pushInt(&values, applyOperation(a, b, op));
+        int b = popVal(&value);
+        int a = popVal(&value);
+        char op = popChar(&operator);
+        pushVal(&value, Calculate(a, b, op));
     }
 
-    return popInt(&values);
+    return popVal(&value);
 }
 
 int main() {
-    char expression[MAX_SIZE];
+    char exp[100];
 
-    printf("Enter the values: ");
-    fgets(expression, MAX_SIZE, stdin);
+    printf("Enter the values : ");
+    fgets(exp, 100, stdin);
 
-    int ans = solveExpression(expression);
-    expression[strcspn(expression, "\n")] = '\0';
+    int result = solveMathExp(exp);
+    exp[strcspn(exp, "\n")] = '\0';
 
-    if (ans != INT_MIN) {    //if error INT_MIN will be returned
-        printf("Result: %d\n", ans);
+    if (result!= INT_MIN) {    //if error INT_MIN will be returned
+        printf(" Result is:%d\n", result);
     }
 
     return 0;
