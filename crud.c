@@ -5,14 +5,14 @@
 #define MAX_NAME_LENGTH 50
 #define FILE_NAME "users.txt"
 
-// Define the structure for a User
+
 struct User {
     int id;
     char name[MAX_NAME_LENGTH];
     int age;
 };
 
-//Create a new user
+
 void createUser() {
     FILE *fp = fopen(FILE_NAME, "a");
    
@@ -30,8 +30,13 @@ void createUser() {
 
     printf("Enter Name: ");
     fgets(newUser.name, MAX_NAME_LENGTH, stdin);
-    newUser.name[strcspn(newUser.name, "\n")] = '\0';
 
+    for (int i = 0; newUser.name[i] != '\0'; i++) {
+    if (newUser.name[i] == '\n') {
+        newUser.name[i] = '\0';
+        break;
+    }
+}
     
     printf("Enter Age: ");
     scanf("%d", &newUser.age);
@@ -50,7 +55,7 @@ void createUser() {
 }
 
 
-// Read and display all the users 
+
 void readUsers() {
     FILE *fp = fopen(FILE_NAME, "r");
    
@@ -64,7 +69,7 @@ void readUsers() {
     fclose(fp);
 }
 
-// Function to update a user's details based on their ID
+
 void updateUser() {
     FILE *fp = fopen(FILE_NAME, "r+");
     FILE *fp1=fopen("temp.txt", "w");
@@ -84,7 +89,11 @@ void updateUser() {
             getchar(); 
             printf("Enter new Name: ");
             fgets(user.name, MAX_NAME_LENGTH, stdin);
-            user.name[strcspn(user.name, "\n")] = '\0';
+             for (int i = 0; newUser.name[i] != '\0'; i++) {
+               if (newUser.name[i] == '\n') {
+                   newUser.name[i] = '\0';
+                   break;
+               }
 
             printf("Enter new Age: ");
             scanf("%d", &user.age);
@@ -115,7 +124,7 @@ void updateUser() {
 
 }
 
-//Delete a user by their ID
+
 void deleteUser() {
     FILE *fp = fopen(FILE_NAME, "r+"); 
   
@@ -134,9 +143,9 @@ void deleteUser() {
     while (fread(&user, sizeof(struct User), 1, fp)) {
         if (user.id == idToDelete) {
             found = 1;
-            continue;    //If found it will skip other code
+            continue;    
         }
-        fwrite(&user, sizeof(struct User), 1, fp1);  // Write to temp file
+        fwrite(&user, sizeof(struct User), 1, fp1);  
     }
     fclose(fp);
     fclose(fp1);
@@ -162,7 +171,7 @@ void deleteUser() {
 }
 
 
-//Display the menu
+
 void displayMenu() {
 
     int choice;
