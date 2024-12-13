@@ -95,7 +95,7 @@ char popChar(struct StChar *stack) {
     return stack->val[stack->top--];
 }
 
-// check precedence
+
 int precedence(char op) {
 
     if (op == '+' || op == '-') return 1;
@@ -199,13 +199,13 @@ int solveMathExp(char *str) {
 int main() {
     char exp[100];
 
-    printf("Enter the values : ");
+    printf("Enter the expression : ");
     fgets(exp, 100, stdin);
 
     int result = solveMathExp(exp);
-    exp[strcspn(exp, "\n")] = '\0';
+    
 
-    if (result!= INT_MIN) {    //if error INT_MIN will be returned
+    if (result!= INT_MIN) {    
         printf(" Result is:%d\n", result);
     }
 
