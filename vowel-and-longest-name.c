@@ -62,7 +62,16 @@ void findLongestName(char names[MAX_ROWS][MAX_COLS][MAX_NAME_LENGTH], int rows, 
         }
     }
     printf("\nNumber of names starting with a vowel:%d\n", vowelCount);
-    printf("The longest name:%s\n", longestName);
+    printf("The longest name:");
+     for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if(strlen(names[i][j])==strlen(longestName))
+            {
+                printf("%s ",names[i][j]);
+            }
+        }
+     }
+   
 }
 
 
