@@ -48,7 +48,7 @@ void bubbleSort(int *array,int arrayLength)
 int main()
 {
     int arrayLength;
-    int *array=(int *)malloc(arrayLength*sizeof(int));
+    int *array=(int *)malloc(sizeof(int)*1000);
     takeInput(array,&arrayLength);
     bubbleSort(array,arrayLength);
     printArray(array,arrayLength);
