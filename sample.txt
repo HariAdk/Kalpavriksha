@@ -1,0 +1,27 @@
+Given two lists.Your work is to sort both the lists and store in same list.
+Now merge two list in a seperate list in ascending order.Now a key is given,your work is to find the node contains that key value
+and remove if their exists duplicate value in list.
+
+-> value may be positive or negative
+-> value can vary from -1e5 to 1e5
+-> size of list vary from 1 to 1e5
+-> print result after removal of duplication
+-> same value can be in any order    
+
+input
+4 5 3 2 6
+5 4 7 9 8
+5
+
+output
+2 3 4 4 5 6 7 8 9
+
+
+
+input
+5 8 7 6
+2 4 3
+1
+
+output
+2 3 4 5 6 7 8
